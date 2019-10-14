@@ -7,7 +7,11 @@ const app = express()
 
 app.use(morgan('dev'))
 app.use(function validateBearerToken(req, res, next) {
-    console.log('I will validate bearer token');
+    const apiToken = process.env.API_TOKEN
+    const authToken = req.get('Authorization')
+    if (!authToken || authToken.split(' ')[1] !== apiToken) {
+        return res.status(401).json({ error: 'Unauthorized request' })
+    }
     next();
 })
 
@@ -17,8 +21,8 @@ app.get('/movie', function handleGetMovie(req, res) {
     let response = MOVIES;
     res.send(response);
 })
-    
-    
+
+
 
 
 const PORT = 8000
