@@ -22,22 +22,22 @@ app.use(function validateBearerToken(req, res, next) {
 console.log(process.env.API_TOKEN);
 
 app.get('/movie', function handleGetMovie(req, res) {
-    let response = MOVIES;
+    let data = MOVIES;
     
     if (req.query.genre) {
-        response = response.filter(movie =>
+        response = data.filter(movie =>
           movie.genre.toLowerCase().includes(req.query.genre.toLowerCase())
         )
       }
 
     if (req.query.country) {
-        response = response.filter(movie => 
+        response = data.filter(movie => 
         movie.country.toLowerCase().includes(req.query.country.toLowerCase())
         )
     }
 
     if(req.query.avg_vote) {
-        response = response.filter(movie =>
+        response = data.filter(movie =>
             Number(movie.avg_vote)>= Number(req.query.avg_vote)
             )
     }
